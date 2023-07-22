@@ -1,36 +1,22 @@
 /* App.css */
 
-.video-list {
-  display:flex;
- flex-direction: column;
- justify-content: center;
- align-items: center;
-  gap: 20px;
-  margin-top: 10px;
-  background-color: black;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.video-list h2 {
-  margin-top: 50px;
-  color: whitesmoke;
+body {
+  overflow-x: hidden;
+  
 }
 
-.video-card {
-  border: 1px solid #ccc;
-  width: 80%;
-  height: 60%;
-  border-radius: 8px;
-  padding: 16px;
+/* .grandParent{
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-video {
-  width: 100%;
-  height: auto;
-}
-
+  
+} */
 
 .upload {
   display: flex;
@@ -88,7 +74,6 @@ video {
   background-color: #1e7e34;
 }
 
-
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.3);
   border-top: 4px solid #007bff;
@@ -108,24 +93,101 @@ video {
   }
 }
 
+h2 {
+  text-align: center;
+  color: black;
+  margin-top: 50px;
+}
+
+
+
+.video-list-inner {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding: 30px;
+  background-color: black;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent video cards from wrapping to the next line */
+}
+
+.video-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 500px;
+  height: 300px;
+  min-width: 500px; /* Set a minimum width to prevent video cards from shrinking */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.video-card p {
+  color: whitesmoke;
+  font-size: 16px;
+}
+
+/* video {
+  width: 100%;
+  height: auto;
+} */
 
 /* Media query for responsiveness */
 @media (max-width: 500px) {
   .upload {
     flex-direction: column;
     align-items: center;
-    padding-right: 50px;
-    padding-left: 50px;
+    padding-right: 10px; /* Adjust padding for better spacing */
+    padding-left: 10px; /* Adjust padding for better spacing */
   }
 
   .upload img {
-    width: 100%; /* Adjust the width to take the full width of the container */
-    height: auto; /* Automatically adjust height to maintain aspect ratio */
+    width: 100%;
+    height: auto;
+    max-width: 200px; /* Limit the width of the GIF for smaller screens */
+    max-height: 150px; /* Limit the height of the GIF for smaller screens */
   }
- 
+  .upload label {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
   .upload label,
   .upload button {
-    width: 100%; /* Adjust the width to take the full width of the container */
+    width: 100%;
     text-align: center;
   }
+  body {
+    overflow-y: auto;
+  }
+
+  .video-list-inner {
+    flex-direction: column;
+    align-items: center; /* Center the video cards on smaller screens */
+    justify-content: center;
+    white-space: normal; /* Allow video cards to wrap on smaller screens */
+    overflow-x: hidden; /* Hide horizontal scrollbar on smaller screens */
+    
+    
+  }
+
+  .video-card {
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Adjust width to fill the available space on smaller screens */
+    min-width: auto; /* Remove the minimum width on smaller screens */
+  }
+
+  h2 {
+    color: black;
+  }
+
+  .video-card p {
+    font-size: 10px;
+  }
 }
+
+/* Additional Media query for larger screens */
+
