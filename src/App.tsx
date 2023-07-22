@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import ReactPlayer from "react-player";
 import "./App.css";
+import VideoList from "./component/VideoList";
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -114,44 +115,12 @@ export default function App() {
       </div>
       <h2 style={{ textAlign: "center" }}>All Videos</h2>
 
-      <div className="video-list">
-        {videos.length > 0 ? (
-          <div className="video-list-inner">
-            {videos.map((video) => (
-              <div key={video.id} className="video-card">
-                <p>Video ID: {video.id}</p>
-                <p>Video Name: {video.name}</p>
-                <ReactPlayer
-                  url={video.url}
-                  width="320"
-                  height="240"
-                  controls
-                  playing={currentPlayingVideo === video.id}
-                  onPlay={() => handleVideoPlay(video.id)}
-                  onPause={handleVideoPause}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "80px",
-            }}
-          >
-            <img
-              src="https://media.giphy.com/media/fipN1GOuDK8txSqay3/giphy.gif"
-              alt="No Videos GIF"
-              draggable="false"
-              height={"100%"}
-              width={"100%"}
-            />
-          </div>
-        )}
-      </div>
+      <VideoList
+        videos={videos}
+        currentPlayingVideo={currentPlayingVideo}
+        handleVideoPlay={handleVideoPlay}
+        handleVideoPause={handleVideoPause}
+      />
     </div>
   );
 }

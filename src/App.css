@@ -176,7 +176,8 @@ h2 {
   .video-card {
     justify-content: center;
     align-items: center;
-    width: 100%; /* Adjust width to fill the available space on smaller screens */
+    width: 300px;
+    height: 200px; /* Adjust width to fill the available space on smaller screens */
     min-width: auto; /* Remove the minimum width on smaller screens */
   }
 
