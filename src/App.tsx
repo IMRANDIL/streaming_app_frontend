@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import ReactPlayer from "react-player";
 import "./App.css";
 import VideoList from "./component/VideoList";
-
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [videoID, setVideoID] = useState<string | null>(null);
@@ -45,7 +43,7 @@ export default function App() {
 
     try {
       setLoading(true); // Show loading spinner while uploading
-      const response = await axios.post(
+      const response: any = await axios.post(
         "http://localhost:8080/upload",
         formData,
         {
@@ -60,7 +58,7 @@ export default function App() {
 
       // Fetch the updated list of videos
       fetchVideos();
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error?.response?.data);
     } finally {
       setLoading(false); // Hide loading spinner after upload completes
@@ -69,10 +67,10 @@ export default function App() {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/videos");
+      const response: any = await axios.get("http://localhost:8080/videos");
       setVideos(response.data);
-    } catch (error) {
-      console.error("Error fetching videos:", error);
+    } catch (error: any) {
+      toast.error(error?.response?.data);
     }
   };
 
@@ -117,6 +115,7 @@ export default function App() {
 
       <VideoList
         videos={videos}
+        videoID={videoID}
         currentPlayingVideo={currentPlayingVideo}
         handleVideoPlay={handleVideoPlay}
         handleVideoPause={handleVideoPause}

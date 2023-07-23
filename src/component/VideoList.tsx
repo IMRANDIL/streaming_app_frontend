@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import ReactPlayer from "react-player";
 
 interface Video {
@@ -10,6 +9,7 @@ interface Video {
 
 interface VideoListProps {
   videos: Video[];
+  videoID: string | null;
   currentPlayingVideo: string | null;
   handleVideoPlay: (videoID: string) => void;
   handleVideoPause: () => void;
