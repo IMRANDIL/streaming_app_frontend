@@ -1,35 +1,52 @@
-# Stage 1: Build the React TypeScript app with Vite
-FROM node:18 as builder
+# Use the official Node.js image as the base image
+# Build stage
+FROM node:18.12.1-alpine AS build-stage
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json (or npm-shrinkwrap.json) if available
-COPY package.json package-lock.json* ./
+# Copy package.json and package-lock.json into the container
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the app's source code
+# Copy the rest of the application code into the container
 COPY . .
 
-# Build the app with Vite
+# Build the application
 RUN npm run build
 
-# Stage 2: Create the final Docker image
-FROM nginx:alpine
+# Print the contents of the 'dist' directory
+RUN ls /app/dist
 
-# Remove the default Nginx configuration
-RUN rm -rf /etc/nginx/conf.d
+# Production stage
+FROM nginx:1.12-alpine
 
-# Copy the custom Nginx configuration
-COPY nginx /etc/nginx
+# Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
 
-# Copy the built app from the first stage
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Create a new user and group called "app"
+RUN addgroup app && adduser -S -G app app
 
-# Expose the port the Nginx server is listening on
+# Change the ownership and permissions of the nginx cache directory
+RUN chown -R app:app /var/cache/nginx
+
+# Create the PID file and grant permission to the app user and group
+RUN touch /var/run/nginx.pid && \
+    chown -R app:app /var/run/nginx.pid
+
+# Copy the Nginx configuration
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+USER app
+
+# Copy the built application code from the build stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+
+# Expose the port that the container will listen on
 EXPOSE 3000
 
-# Start Nginx
+# Start nginx and keep the container running
 CMD ["nginx", "-g", "daemon off;"]
